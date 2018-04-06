@@ -59,7 +59,7 @@
     <Compile Include="Options\BaseOptionModel.cs" />
     <Compile Include="Options\OtherOptions.cs" />
     <Compile Include="Options\GeneralOptions.cs" />
-    <Compile Include="Options\BaseOptionsPage.cs">
+    <Compile Include="Options\BaseOptionPage.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

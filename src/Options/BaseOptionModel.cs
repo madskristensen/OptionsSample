@@ -13,22 +13,15 @@ using Task = System.Threading.Tasks.Task;
 
 namespace OptionsSample.Options
 {
-    public abstract class BaseOptionsModel<T> where T : BaseOptionsModel<T>, new()
+    public abstract class BaseOptionModel<T> where T : BaseOptionModel<T>, new()
     {
-        private static AsyncLazy<ShellSettingsManager> _settingsManager;
         private static AsyncLazy<T> _liveModel;
+        private static AsyncLazy<ShellSettingsManager> _settingsManager;
 
-        protected BaseOptionsModel()
+        static BaseOptionModel()
         {
             _liveModel = new AsyncLazy<T>(CreateAsync, ThreadHelper.JoinableTaskFactory);
             _settingsManager = new AsyncLazy<ShellSettingsManager>(GetSettingsManagerAsync, ThreadHelper.JoinableTaskFactory);
-        }
-
-        public static async Task<T> CreateAsync()
-        {
-            var instance = new T();
-            await instance.LoadAsync();
-            return instance;
         }
 
         public static T Instance
@@ -36,6 +29,7 @@ namespace OptionsSample.Options
             get
             {
                 ThreadHelper.ThrowIfNotOnUIThread();
+
 #pragma warning disable VSTHRD104 // Offer async methods
                 return ThreadHelper.JoinableTaskFactory.Run(GetLiveInstanceAsync);
 #pragma warning restore VSTHRD104 // Offer async methods
@@ -43,6 +37,13 @@ namespace OptionsSample.Options
         }
 
         public static Task<T> GetLiveInstanceAsync() => _liveModel.GetValueAsync();
+
+        public static async Task<T> CreateAsync()
+        {
+            var instance = new T();
+            await instance.LoadAsync();
+            return instance;
+        }
 
         protected virtual string CollectionName { get; } = typeof(T).FullName;
 
@@ -88,7 +89,7 @@ namespace OptionsSample.Options
             }
         }
 
-        private async Task<ShellSettingsManager> GetSettingsManagerAsync()
+        private static async Task<ShellSettingsManager> GetSettingsManagerAsync()
         {
 #pragma warning disable VSTHRD010 
             // False-positive in Threading Analyzers. Bug tracked here https://github.com/Microsoft/vs-threading/issues/230

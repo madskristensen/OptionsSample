@@ -2,14 +2,14 @@
 
 namespace OptionsSample.Options
 {
-    public class BaseOptionsPage<T> : DialogPage where T : BaseOptionsModel<T>, new()
+    public class BaseOptionPage<T> : DialogPage where T : BaseOptionModel<T>, new()
     {
-        private BaseOptionsModel<T> _model;
+        private BaseOptionModel<T> _model;
 
-        public BaseOptionsPage()
+        public BaseOptionPage()
         {
 #pragma warning disable VSTHRD104 // Offer async methods
-            _model = ThreadHelper.JoinableTaskFactory.Run(BaseOptionsModel<T>.CreateAsync);
+            _model = ThreadHelper.JoinableTaskFactory.Run(BaseOptionModel<T>.CreateAsync);
 #pragma warning restore VSTHRD104 // Offer async methods
         }
 

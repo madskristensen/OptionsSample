@@ -12,10 +12,18 @@ namespace OptionsSample
     {
         public void TextViewCreated(IWpfTextView textView)
         {
-            System.Threading.Tasks.Task.Run(() =>
+            // Call the Instance singleton from UI the thread is easy
+            bool showMessage = OtherOptions.Instance.ShowMessage;
+
+            if (showMessage)
             {
-                System.Windows.Forms.MessageBox.Show(GeneralOptions.Instance.Message);
-            });
+                System.Threading.Tasks.Task.Run(async () =>
+                {
+                    // Make the call to GetLiveInstanceAsync from a background thread to avoid blocking the UI thread
+                    GeneralOptions options = await GeneralOptions.GetLiveInstanceAsync();
+                    System.Windows.Forms.MessageBox.Show(options.Message);
+                });
+            }
         }
     }
 }

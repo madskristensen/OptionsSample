@@ -2,13 +2,15 @@
 
 namespace OptionsSample.Options
 {
-    public class OtherOptions : BaseOptionsModel<OtherOptions>
+    public class OtherOptions : BaseOptionModel<OtherOptions>
     {
+        public class Page : BaseOptionPage<OtherOptions> { }
+
         [Category("A category")]
-        [DisplayName("This is a boolean")]
+        [DisplayName("Show message")]
         [Description("The description of the property")]
         [DefaultValue(true)]
-        public bool ThisIsABoolean { get; set; } = true;
+        public bool ShowMessage { get; set; } = true;
 
         [Category("Another category")]
         [DisplayName("Favorite clothing")]
