@@ -36,7 +36,9 @@ namespace OptionsSample.Options
             get
             {
                 ThreadHelper.ThrowIfNotOnUIThread();
+#pragma warning disable VSTHRD104 // Offer async methods
                 return ThreadHelper.JoinableTaskFactory.Run(GetLiveInstanceAsync);
+#pragma warning restore VSTHRD104 // Offer async methods
             }
         }
 
