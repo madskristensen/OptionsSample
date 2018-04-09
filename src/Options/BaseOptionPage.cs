@@ -2,6 +2,9 @@
 
 namespace OptionsSample.Options
 {
+    /// <summary>
+    /// A base class for a DialogPage to show in Tools -> Options.
+    /// </summary>
     public class BaseOptionPage<T> : DialogPage where T : BaseOptionModel<T>, new()
     {
         private BaseOptionModel<T> _model;

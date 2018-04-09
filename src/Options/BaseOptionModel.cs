@@ -13,6 +13,9 @@ using Task = System.Threading.Tasks.Task;
 
 namespace OptionsSample.Options
 {
+    /// <summary>
+    /// A base class for specifying options
+    /// </summary>
     public abstract class BaseOptionModel<T> where T : BaseOptionModel<T>, new()
     {
         private static AsyncLazy<T> _liveModel;
@@ -23,7 +26,10 @@ namespace OptionsSample.Options
             _liveModel = new AsyncLazy<T>(CreateAsync, ThreadHelper.JoinableTaskFactory);
             _settingsManager = new AsyncLazy<ShellSettingsManager>(GetSettingsManagerAsync, ThreadHelper.JoinableTaskFactory);
         }
-
+        
+        /// <summary>
+        /// A singleton instance of the options. MUST be called form UI thread only
+        /// </summary>
         public static T Instance
         {
             get
@@ -36,8 +42,15 @@ namespace OptionsSample.Options
             }
         }
 
+        /// <summary>
+        /// Get the singleton instance of the options. Thread safe.
+        /// </summary>
         public static Task<T> GetLiveInstanceAsync() => _liveModel.GetValueAsync();
 
+        /// <summary>
+        /// Creates a new instance of the options class and loads the values from the store.
+        /// </summary>
+        /// <returns></returns>
         public static async Task<T> CreateAsync()
         {
             var instance = new T();
@@ -45,8 +58,14 @@ namespace OptionsSample.Options
             return instance;
         }
 
+        /// <summary>
+        /// The name of the options collection as stored in the registry.
+        /// </summary>
         protected virtual string CollectionName { get; } = typeof(T).FullName;
-
+        
+        /// <summary>
+        /// Hydrates the properties from the registry.
+        /// </summary>
         public virtual async Task LoadAsync()
         {
             ShellSettingsManager manager = await _settingsManager.GetValueAsync();
@@ -59,12 +78,22 @@ namespace OptionsSample.Options
 
             foreach (PropertyInfo property in GetOptionProperties())
             {
-                string serializedProp = settingsStore.GetString(CollectionName, property.Name);
-                object value = JsonConvert.DeserializeObject(serializedProp, property.PropertyType);
-                property.SetValue(this, value);
+                try
+                {
+                    string serializedProp = settingsStore.GetString(CollectionName, property.Name);
+                    object value = JsonConvert.DeserializeObject(serializedProp, property.PropertyType);
+                    property.SetValue(this, value);
+                }
+                catch (System.Exception ex)
+                {
+                    System.Diagnostics.Debug.Write(ex);
+                }
             }
         }
 
+        /// <summary>
+        /// Saves the properties to the registry.
+        /// </summary>
         public virtual async Task SaveAsync()
         {
             ShellSettingsManager manager = await _settingsManager.GetValueAsync();

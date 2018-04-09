@@ -12,7 +12,7 @@ namespace OptionsSample
     {
         public void TextViewCreated(IWpfTextView textView)
         {
-            // Call the Instance singleton from UI the thread is easy
+            // Call the Instance singleton from the UI thread is easy
             bool showMessage = OtherOptions.Instance.ShowMessage;
 
             if (showMessage)

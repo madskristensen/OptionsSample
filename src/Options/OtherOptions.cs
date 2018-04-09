@@ -4,8 +4,6 @@ namespace OptionsSample.Options
 {
     public class OtherOptions : BaseOptionModel<OtherOptions>
     {
-        public class Page : BaseOptionPage<OtherOptions> { }
-
         [Category("A category")]
         [DisplayName("Show message")]
         [Description("The description of the property")]
@@ -16,6 +14,7 @@ namespace OptionsSample.Options
         [DisplayName("Favorite clothing")]
         [Description("The description of the property")]
         [DefaultValue(Clothing.Pants)]
+        [TypeConverter(typeof(EnumConverter))] // This will make use of enums more resilient
         public Clothing ClothingChoice { get; set; } = Clothing.Pants;
 
         [Category("My category")]
@@ -24,6 +23,11 @@ namespace OptionsSample.Options
         [DefaultValue(true)]
         [Browsable(false)] // This will hide it from the Tools -> Options page, but still work like normal
         public bool HiddenProperty { get; set; } = true;
+
+        #region DialogPage 
+        /// <summary>The DialogPage to register on the Package class.</summary>
+        public class Page : BaseOptionPage<OtherOptions> { }
+        #endregion
     }
 
     public enum Clothing
