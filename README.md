@@ -78,8 +78,9 @@ See how it is being used from the [TextviewCreationListener](src/TextviewCreatio
 You can programmatically modify the options like this:
 
 ```c#
-GeneralOptions.Instance.Message = "My new message";
-await GeneralOptions.Instance.SaveAsync();
+GeneralOptions options = await GeneralOptions.GetLiveInstanceAsync();
+options.Message = "My new message";
+await options.SaveAsync();
 ```
 
 The above method can be called in a syncronous way on the UI thread, like so:
