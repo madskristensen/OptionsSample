@@ -52,7 +52,7 @@ namespace OptionsSample.Options
         }
 
         /// <summary>
-        /// Creates a new instance of the options class and loads the values from the store.
+        /// Creates a new instance of the options class and loads the values from the store. For internal use only
         /// </summary>
         /// <returns></returns>
         public static async Task<T> CreateAsync()
@@ -70,7 +70,7 @@ namespace OptionsSample.Options
         /// <summary>
         /// Hydrates the properties from the registry.
         /// </summary>
-        public void Load()
+        public virtual void Load()
         {
             ThreadHelper.JoinableTaskFactory.Run(LoadAsync);
         }
@@ -106,7 +106,7 @@ namespace OptionsSample.Options
         /// <summary>
         /// Saves the properties to the registry.
         /// </summary>
-        public void Save()
+        public virtual void Save()
         {
             ThreadHelper.JoinableTaskFactory.Run(SaveAsync);
         }
