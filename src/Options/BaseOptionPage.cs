@@ -20,16 +20,12 @@ namespace OptionsSample.Options
 
         public override void LoadSettingsFromStorage()
         {
-#pragma warning disable VSTHRD104 // Offer async methods
-            ThreadHelper.JoinableTaskFactory.Run(_model.LoadAsync);
-#pragma warning restore VSTHRD104 // Offer async methods
+            _model.Load();
         }
 
         public override void SaveSettingsToStorage()
         {
-#pragma warning disable VSTHRD104 // Offer async methods
-            ThreadHelper.JoinableTaskFactory.Run(_model.SaveAsync);
-#pragma warning restore VSTHRD104 // Offer async methods
+            _model.Save();
         }
     }
 }

@@ -62,9 +62,17 @@ namespace OptionsSample.Options
         /// The name of the options collection as stored in the registry.
         /// </summary>
         protected virtual string CollectionName { get; } = typeof(T).FullName;
-        
+
         /// <summary>
         /// Hydrates the properties from the registry.
+        /// </summary>
+        public void Load()
+        {
+            ThreadHelper.JoinableTaskFactory.Run(LoadAsync);
+        }
+
+        /// <summary>
+        /// Hydrates the properties from the registry asyncronously.
         /// </summary>
         public virtual async Task LoadAsync()
         {
@@ -93,6 +101,14 @@ namespace OptionsSample.Options
 
         /// <summary>
         /// Saves the properties to the registry.
+        /// </summary>
+        public void Save()
+        {
+            ThreadHelper.JoinableTaskFactory.Run(SaveAsync);
+        }
+
+        /// <summary>
+        /// Saves the properties to the registry asyncronously.
         /// </summary>
         public virtual async Task SaveAsync()
         {

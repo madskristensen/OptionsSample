@@ -82,11 +82,11 @@ GeneralOptions.Instance.Message = "My new message";
 await GeneralOptions.Instance.SaveAsync();
 ```
 
-The above method can be called in a syncronous way using the `Microsoft.VisualStudio.Shell.ThreadHelper`, like so:
+The above method can be called in a syncronous way on the UI thread, like so:
 
 ```c#
 GeneralOptions.Instance.Message = "My new message";
-ThreadHelper.JoinableTaskFactory.Run(GeneralOptions.Instance.SaveAsync);
+GeneralOptions.Instance.Save();
 ```
 
 It is recommented to do it async if possible.
