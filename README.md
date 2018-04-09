@@ -24,7 +24,7 @@ To make them show up in that dialog they have to be registered on the package cl
 ```c#
 [ProvideOptionPage(typeof(GeneralOptions.Page), "My Options", "General", 0, 0, true)]
 [ProvideOptionPage(typeof(OtherOptions.Page), "My Options", "Other", 0, 0, true)]
-public sealed class OptionsPackage : AsyncPackage
+public sealed class MyPackage : AsyncPackage
 {
     ...
 }
