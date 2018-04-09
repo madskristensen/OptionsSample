@@ -10,6 +10,7 @@ namespace OptionsSample
     [TextViewRole(PredefinedTextViewRoles.PrimaryDocument)]
     public class TextviewCreationListener : IWpfTextViewCreationListener
     {
+        // This method is executed when you open any file in the editor window
         public void TextViewCreated(IWpfTextView textView)
         {
             // Call the Instance singleton from the UI thread is easy
