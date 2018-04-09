@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="OptionsPackage.cs" />
     <Compile Include="Options\BaseOptionModel.cs" />
+    <Compile Include="Options\DialogPageProvider.cs" />
     <Compile Include="Options\OtherOptions.cs" />
     <Compile Include="Options\GeneralOptions.cs" />
     <Compile Include="Options\BaseOptionPage.cs">

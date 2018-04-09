@@ -23,11 +23,6 @@ namespace OptionsSample.Options
         [DefaultValue(true)]
         [Browsable(false)] // This will hide it from the Tools -> Options page, but still work like normal
         public bool HiddenProperty { get; set; } = true;
-
-        #region DialogPage 
-        /// <summary>The DialogPage to register on the Package class.</summary>
-        public class Page : BaseOptionPage<OtherOptions> { }
-        #endregion
     }
 
     public enum Clothing

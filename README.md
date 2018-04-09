@@ -22,8 +22,8 @@ The source code in this sample adds two options pages to the **Tools -> Options*
 To make them show up in that dialog they have to be registered on the package class itself using the `ProvideOptionPage` attribute, like so:
 
 ```c#
-[ProvideOptionPage(typeof(GeneralOptions.Page), "My Options", "General", 0, 0, true)]
-[ProvideOptionPage(typeof(OtherOptions.Page), "My Options", "Other", 0, 0, true)]
+[ProvideOptionPage(typeof(DialogPageProvider.GeneralOptions), "My Options", "General", 0, 0, true)]
+[ProvideOptionPage(typeof(DialogPageProvider.OtherOptions), "My Options", "Other", 0, 0, true)]
 public sealed class MyPackage : AsyncPackage
 {
     ...
@@ -39,15 +39,20 @@ public class GeneralOptions : BaseOptionModel<GeneralOptions>
     [DisplayName("Message box text")]
     [Description("Specifies the text to show in the message box")]
     public string Message { get; set; } = "My message";
-
-    #region DialogPage
-    /// <summary>The DialogPage to register on the Package class.</summary>
-    public class Page : BaseOptionPage<GeneralOptions> { }
-    #endregion
 }
 ```
 
-The `Page` class added to each option class is inheriting from the second generic base class in this sample - `BaseOptionPage` ([source](src/Options/BaseOptionPage.cs)). It's sole responsibility is to function as the entry point for the **Tools -> Options** dialog. 
+These classes can be used from anywhere in the extension when options are needed, but we need to provide a way to expose them to VS and for that we're going to create a class called `DialogPageProvider`:
+
+```c#
+public class DialogPageProvider
+{
+    public class GeneralOptionsPage : BaseOptionPage<GeneralOptions> { }
+    public class OtherOptionsPage : BaseOptionPage<OtherOptions> { }
+}
+```
+
+The classes specified inside the `DialogPageProvider` class are inheriting from the second generic base class in this sample - `BaseOptionPage` ([source](src/Options/BaseOptionPage.cs)). It's sole responsibility is to function as the entry point for the **Tools -> Options** dialog.
 
 That's it. We how now created custom options pages and registered them on the package. 
 
