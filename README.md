@@ -55,7 +55,7 @@ internal class DialogPageProvider
 
 The classes specified inside the `DialogPageProvider` class are inheriting from the second generic base class in this sample - `BaseOptionPage` ([source](src/Options/BaseOptionPage.cs)). It's sole responsibility is to function as the entry point for the **Tools -> Options** dialog.
 
-That's it. We how now created custom options pages and registered them on the package. 
+That's it. We have now created custom options pages and registered them on the package. 
 
 ## Using the custom options
 The options are ready to be consumed by our code and there are two ways to go about it:
@@ -78,7 +78,7 @@ GeneralOptions options = await GeneralOptions.GetLiveInstanceAsync();
 string message = options.Message;
 ```
 
-See how it is being used from the [TextviewCreationListener](src/TextviewCreationListener.cs) MEF component in the source code.
+See how it is being used from the [TextviewCreationListener,cs](src/TextviewCreationListener.cs) MEF component in the source code.
 
 ## Modify the options
 You can programmatically modify the options like this:
