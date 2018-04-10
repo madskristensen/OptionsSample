@@ -5,7 +5,7 @@
     /// </summary>
     internal class DialogPageProvider
     {
-        public class GeneralOptionsPage : BaseOptionPage<GeneralOptions> { }
-        public class OtherOptionsPage : BaseOptionPage<OtherOptions> { }
+        public class General : BaseOptionPage<GeneralOptions> { }
+        public class Other : BaseOptionPage<OtherOptions> { }
     }
 }

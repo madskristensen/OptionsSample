@@ -2,7 +2,7 @@
 
 namespace OptionsSample.Options
 {
-    public class GeneralOptions : BaseOptionModel<GeneralOptions>
+    internal class GeneralOptions : BaseOptionModel<GeneralOptions>
     {
         [Category("My category")]
         [DisplayName("Message box text")]

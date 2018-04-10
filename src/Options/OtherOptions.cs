@@ -2,7 +2,7 @@
 
 namespace OptionsSample.Options
 {
-    public class OtherOptions : BaseOptionModel<OtherOptions>
+    internal class OtherOptions : BaseOptionModel<OtherOptions>
     {
         [Category("A category")]
         [DisplayName("Show message")]

@@ -9,8 +9,8 @@ namespace OptionsSample
 {
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
-    [ProvideOptionPage(typeof(DialogPageProvider.GeneralOptionsPage), "My Options", "General", 0, 0, true)]
-    [ProvideOptionPage(typeof(DialogPageProvider.OtherOptionsPage), "My Options", "Other", 0, 0, true)]
+    [ProvideOptionPage(typeof(DialogPageProvider.General), "My Options", "General", 0, 0, true)]
+    [ProvideOptionPage(typeof(DialogPageProvider.Other), "My Options", "Other", 0, 0, true)]
     [Guid("8bb519a5-4864-43b0-8684-e2f2f723100c")]
     public sealed class OptionsPackage : AsyncPackage
     {

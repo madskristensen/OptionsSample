@@ -16,7 +16,7 @@ namespace OptionsSample.Options
     /// <summary>
     /// A base class for specifying options
     /// </summary>
-    public abstract class BaseOptionModel<T> where T : BaseOptionModel<T>, new()
+    internal abstract class BaseOptionModel<T> where T : BaseOptionModel<T>, new()
     {
         private static AsyncLazy<T> _liveModel;
         private static AsyncLazy<ShellSettingsManager> _settingsManager;

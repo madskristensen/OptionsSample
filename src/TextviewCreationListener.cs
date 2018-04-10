@@ -8,7 +8,7 @@ namespace OptionsSample
     [Export(typeof(IWpfTextViewCreationListener))]
     [ContentType("text")]
     [TextViewRole(PredefinedTextViewRoles.PrimaryDocument)]
-    public class TextviewCreationListener : IWpfTextViewCreationListener
+    internal class TextviewCreationListener : IWpfTextViewCreationListener
     {
         // This method is executed when you open any file in the editor window
         public void TextViewCreated(IWpfTextView textView)

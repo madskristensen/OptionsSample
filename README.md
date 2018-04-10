@@ -22,8 +22,8 @@ The source code in this sample adds two options pages to the **Tools -> Options*
 To make them show up in that dialog they have to be registered on the package class itself using the `ProvideOptionPage` attribute, like so:
 
 ```c#
-[ProvideOptionPage(typeof(DialogPageProvider.GeneralOptions), "My Options", "General", 0, 0, true)]
-[ProvideOptionPage(typeof(DialogPageProvider.OtherOptions), "My Options", "Other", 0, 0, true)]
+[ProvideOptionPage(typeof(DialogPageProvider.General), "My Options", "General", 0, 0, true)]
+[ProvideOptionPage(typeof(DialogPageProvider.Other), "My Options", "Other", 0, 0, true)]
 public sealed class MyPackage : AsyncPackage
 {
     ...
@@ -33,7 +33,7 @@ public sealed class MyPackage : AsyncPackage
 Both `GeneralOptions` ([source](src/Options/GeneralOptions.cs)) and `OtherOptions` ([source](src/Options/OtherOptions.cs)) are classes containing the settings as regular public properties. They are inheriting from the generic base class `BaseOptionModel` ([source](src/Options/BaseOptionModel.cs)).
 
 ```c#
-public class GeneralOptions : BaseOptionModel<GeneralOptions>
+internal class GeneralOptions : BaseOptionModel<GeneralOptions>
 {
     [Category("My category")]
     [DisplayName("Message box text")]
@@ -45,10 +45,10 @@ public class GeneralOptions : BaseOptionModel<GeneralOptions>
 These classes can be used from anywhere in the extension when options are needed, but we need to provide a way to expose them to VS and for that we're going to create a class called `DialogPageProvider`:
 
 ```c#
-public class DialogPageProvider
+internal class DialogPageProvider
 {
-    public class GeneralOptionsPage : BaseOptionPage<GeneralOptions> { }
-    public class OtherOptionsPage : BaseOptionPage<OtherOptions> { }
+    public class General : BaseOptionPage<GeneralOptions> { }
+    public class Other : BaseOptionPage<OtherOptions> { }
 }
 ```
 
