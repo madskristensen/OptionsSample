@@ -78,7 +78,7 @@ GeneralOptions options = await GeneralOptions.GetLiveInstanceAsync();
 string message = options.Message;
 ```
 
-See how it is being used from the [TextviewCreationListener,cs](src/TextviewCreationListener.cs) MEF component in the source code.
+See how it is being used from the [TextviewCreationListener.cs](src/TextviewCreationListener.cs) MEF component in the source code.
 
 ## Modify the options
 You can programmatically modify the options like this:
