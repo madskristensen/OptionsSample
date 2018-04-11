@@ -87,10 +87,10 @@ namespace OptionsSample.Options
                 try
                 {
                     string serializedProp = settingsStore.GetString(CollectionName, property.Name);
-                    object value = DeserializeProperty(serializedProp, property.PropertyType);
+                    object value = DeserializeValue(serializedProp, property.PropertyType);
                     property.SetValue(this, value);
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
                     System.Diagnostics.Debug.Write(ex);
                 }
@@ -120,7 +120,7 @@ namespace OptionsSample.Options
 
             foreach (PropertyInfo property in GetOptionProperties())
             {
-                string output = SerializeProperty(property.GetValue(this));
+                string output = SerializeValue(property.GetValue(this));
                 settingsStore.SetString(CollectionName, property.Name, output);
             }
 
@@ -135,7 +135,7 @@ namespace OptionsSample.Options
         /// <summary>
         /// Serializes an object value to a string using JSON.NET.
         /// </summary>
-        protected virtual string SerializeProperty(object value)
+        protected virtual string SerializeValue(object value)
         {
             return JsonConvert.SerializeObject(value);
         }
@@ -143,7 +143,7 @@ namespace OptionsSample.Options
         /// <summary>
         /// Deserializes a string to an object using JSON.NET.
         /// </summary>
-        protected virtual object DeserializeProperty(string value, Type type)
+        protected virtual object DeserializeValue(string value, Type type)
         {
             return JsonConvert.DeserializeObject(value, type);
         }
