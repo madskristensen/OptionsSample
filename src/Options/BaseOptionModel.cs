@@ -18,13 +18,11 @@ namespace OptionsSample.Options
     /// </summary>
     internal abstract class BaseOptionModel<T> where T : BaseOptionModel<T>, new()
     {
-        private static AsyncLazy<T> _liveModel;
-        private static AsyncLazy<ShellSettingsManager> _settingsManager;
+        private static AsyncLazy<T> _liveModel = new AsyncLazy<T>(CreateAsync, ThreadHelper.JoinableTaskFactory);
+        private static AsyncLazy<ShellSettingsManager> _settingsManager = new AsyncLazy<ShellSettingsManager>(GetSettingsManagerAsync, ThreadHelper.JoinableTaskFactory);
 
         protected BaseOptionModel()
-        {
-            EnsureInitialized();
-        }
+        { }
 
         /// <summary>
         /// A singleton instance of the options. MUST be called form UI thread only
@@ -34,7 +32,6 @@ namespace OptionsSample.Options
             get
             {
                 ThreadHelper.ThrowIfNotOnUIThread();
-                EnsureInitialized();
 
 #pragma warning disable VSTHRD104 // Offer async methods
                 return ThreadHelper.JoinableTaskFactory.Run(GetLiveInstanceAsync);
@@ -45,11 +42,7 @@ namespace OptionsSample.Options
         /// <summary>
         /// Get the singleton instance of the options. Thread safe.
         /// </summary>
-        public static Task<T> GetLiveInstanceAsync()
-        {
-            EnsureInitialized();
-            return _liveModel.GetValueAsync();
-        }
+        public static Task<T> GetLiveInstanceAsync() => _liveModel.GetValueAsync();
 
         /// <summary>
         /// Creates a new instance of the options class and loads the values from the store. For internal use only
@@ -136,12 +129,6 @@ namespace OptionsSample.Options
             {
                 await liveModel.LoadAsync();
             }
-        }
-
-        private static void EnsureInitialized()
-        {
-            _liveModel = _liveModel ?? new AsyncLazy<T>(CreateAsync, ThreadHelper.JoinableTaskFactory);
-            _settingsManager = _settingsManager ?? new AsyncLazy<ShellSettingsManager>(GetSettingsManagerAsync, ThreadHelper.JoinableTaskFactory);
         }
 
         private static async Task<ShellSettingsManager> GetSettingsManagerAsync()
