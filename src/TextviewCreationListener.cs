@@ -22,7 +22,8 @@ namespace OptionsSample
                 {
                     // Make the call to GetLiveInstanceAsync from a background thread to avoid blocking the UI thread
                     GeneralOptions options = await GeneralOptions.GetLiveInstanceAsync();
-                    System.Windows.Forms.MessageBox.Show(options.Message);
+                    string message = options.Message;
+                    // Do something with message
                 });
             }
         }
