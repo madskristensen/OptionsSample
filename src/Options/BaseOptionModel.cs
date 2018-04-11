@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using Microsoft;
 using Microsoft.VisualStudio.Settings;
@@ -9,7 +11,6 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell.Settings;
 using Microsoft.VisualStudio.Threading;
-using Newtonsoft.Json;
 using Task = System.Threading.Tasks.Task;
 
 namespace OptionsSample.Options
@@ -133,19 +134,33 @@ namespace OptionsSample.Options
         }
 
         /// <summary>
-        /// Serializes an object value to a string using JSON.NET.
+        /// Serializes an object value to a string using the binary serializer.
         /// </summary>
         protected virtual string SerializeValue(object value)
         {
-            return JsonConvert.SerializeObject(value);
+            using (var stream = new MemoryStream())
+            {
+                var formatter = new BinaryFormatter();
+                formatter.Serialize(stream, value);
+                stream.Flush();
+                stream.Position = 0;
+                return Convert.ToBase64String(stream.ToArray());
+            }
         }
 
         /// <summary>
-        /// Deserializes a string to an object using JSON.NET.
+        /// Deserializes a string to an object using the binary serializer.
         /// </summary>
         protected virtual object DeserializeValue(string value, Type type)
         {
-            return JsonConvert.DeserializeObject(value, type);
+            byte[] b = Convert.FromBase64String(value);
+
+            using (var stream = new MemoryStream(b))
+            {
+                var formatter = new BinaryFormatter();
+                stream.Seek(0, SeekOrigin.Begin);
+                return formatter.Deserialize(stream);
+            }
         }
 
         private static async Task<ShellSettingsManager> GetSettingsManagerAsync()
